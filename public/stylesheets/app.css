@@ -52,6 +52,9 @@ body.landing .navbar {
   margin-top: 45px;
   margin-bottom: 20px; }
 
+.hover-highlight {
+  color: #de1b93; }
+
 .album-header-information h3, .album-header-information h4, .album-header-information h5 {
   line-height: 150%; }
 
