@@ -22,9 +22,5 @@ $(document).ready(function() {
   };
   $('.selling-points .point').hover(onHoverAction, offHoverAction);
 
-  // fade-out logo when click on it
-  $('.logo').click(function() {
-    $(this).fadeOut('slow');
-  });
 
 });
