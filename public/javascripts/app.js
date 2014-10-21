@@ -223,24 +223,62 @@ var changeAlbumView = function(album) {
      var $newRow = createSongRow(i + 1, songData.name, songData.length);
      $songList.append($newRow);
    }
+ }; // ChangeAlbumView
+
+var updateSeekPercentage = function($seekBar, event) {
+   var barWidth = $seekBar.width();
+   // calculate distance between mouse position and seekbar position
+   var offsetX = event.pageX - $seekBar.offset().left; 
+
+   // make it a percentage
+   var offsetXPercent = (offsetX  / barWidth) * 100;
+
+   // make sure the percentage stays between 0 & 100 in case user moves mouse past boundaries
+   offsetXPercent = Math.max(0, offsetXPercent);
+   offsetXPercent = Math.min(100, offsetXPercent);
  
+   var percentageString = offsetXPercent + '%';
+   $seekBar.find('.fill').width(percentageString);
+   $seekBar.find('.thumb').css({left: percentageString});
+ }
+
+var setupSeekBars = function() {
+ 
+   // bind updateSeekPercentage to mouse click events for player-bar & seek-bar
+   $seekBars = $('.player-bar .seek-bar');
+   $seekBars.click(function(event) {
+     updateSeekPercentage($(this), event);
+   });
+
+   // setup mousedown event handler for the thumb object
+   $seekBars.find('.thumb').mousedown(function(event){
+
+    // get the seekBar object which is the parent of the thumb
+    var $seekBar = $(this).parent();
+
+    // turn off animation so that thumb doesn't lag when dragging with mouse
+    $seekBar.addClass('no-animate');
+ 
+    $(document).bind('mousemove.thumb', function(event){
+      updateSeekPercentage($seekBar, event);
+    });
+ 
+    //cleanup so that further mousemoves elsewhere on page won't trigger thumb movement
+    $(document).bind('mouseup.thumb', function(){
+      $seekBar.removeClass('no-animate'); // turn animation back on
+      $(document).unbind('mousemove.thumb');
+      $(document).unbind('mouseup.thumb');
+    });
+ 
+  });
+
  };
 
 if (document.URL.match(/\/album.html/)) {
     $(document).ready(function() { 
 
       changeAlbumView(albumPicasso);
-
-      // cyle through albums when user clicks on < > buttons
-      $('.album-advance-buttons').click(function() {
-        if ($(this).text() == ">") {
-          curAlbum = (curAlbum + 1) % albumList.length;
-        }
-        else {
-          curAlbum = (curAlbum + 1) % albumList.length;
-        };
-        changeAlbumView(albumList[curAlbum]);
-      });
+      setupSeekBars();
 
     });
 };
