@@ -6,6 +6,13 @@
   font-size: 70px;
   margin-bottom: 50px;
   font-weight: 300; }
+  .hero-content h1:hover {
+    color: #d2287b;
+    cursor: pointer; }
+
+.hero-content h3:hover {
+  color: #d2287b;
+  cursor: pointer; }
 
 .selling-points {
   padding: 100px 0; }
@@ -14,6 +21,8 @@
   width: 32%;
   float: left;
   padding: 0 0.5%; }
+  .selling-points .point:hover {
+    margin-top: 10px; }
 
 .selling-points .point h5 {
   font-size: 24px;
@@ -143,8 +152,6 @@ td.song-number {
   color: white;
   background-color: #d2287b; }
 
-.collection-album-container .collection-overlay-button:hover::before {
-  content: "Click this: "; }
 
 .collection-album-container .collection-overlay-button i {
   line-height: 42px; }
@@ -355,6 +362,14 @@ body.landing .navbar {
 
 .player-header-nav {
   background-color: rgba(123, 70, 163, 0.9); }
+  .player-header-nav .navbar-nav a {
+    line-height: 45px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.2; }
+    .player-header-nav .navbar-nav a:hover {
+      color: rgba(123, 70, 163, 0.9); }
 
 
 /*# sourceMappingURL=app.css.map*/

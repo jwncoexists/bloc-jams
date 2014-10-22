@@ -1,3 +1,5 @@
+$highlight-pink: #d2287b;
+
   .hero-content {
     background: #2F1D57;
     padding: 100px 0;
@@ -7,6 +9,11 @@
     font-size: 70px;
     margin-bottom: 50px;
     font-weight: 300;
+    &:hover { color: $highlight-pink; cursor: pointer; }
+  }
+
+  .hero-content h3 {
+    &:hover { color: $highlight-pink; cursor: pointer; }
   }
 
   .selling-points {
@@ -17,6 +24,7 @@
     width: 32%;
     float: left;
     padding: 0 0.5%;
+    &:hover { margin-top: 10px; }
   }
  
   .selling-points .point h5 {
