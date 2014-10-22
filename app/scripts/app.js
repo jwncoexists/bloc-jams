@@ -3,8 +3,30 @@
 //require("./album");
 //require("./profile");
 
- angular.module('BlocJams', []).controller('Landing.controller', ['$scope', function($scope) {
+// import the ui-router
+blocJams = angular.module('BlocJams', ['ui.router']);
 
+// configure ui-router with providers
+blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+   
+   // specify paths without hashbang
+   $locationProvider.html5Mode(true);
+
+   $stateProvider.state('landing', {
+     url: '/',
+     controller: 'Landing.controller',
+     templateUrl: '/templates/landing.html'
+   });
+
+   $stateProvider.state('song', {
+     url: '/song',
+     controller: 'Song.controller',
+     templateUrl: '/templates/song.html'
+   });   
+ }]);
+ 
+ // This is a cleaner way to call the controller than crowding it on the module definition.
+ blocJams.controller('Landing.controller', ['$scope', function($scope) {
   $scope.subText = "Turn the music up!";
 
   // add an '!' when the subtext is clicked
@@ -18,7 +40,7 @@
   };
   
   $scope.hdrText = "Bloc Jams";
-  
+
   // shuffle the images when the header is clicked
   $scope.hdrTextClicked = function() {
     console.log('hdrText clicked');
@@ -36,5 +58,11 @@
      '/images/album-placeholders/album-8.jpg',
      '/images/album-placeholders/album-9.jpg',
    ];
+
+ }]);
+
+ 
+ // This is a cleaner way to call the controller than crowding it on the module definition.
+ blocJams.controller('Song.controller', ['$scope', function($scope) {
 
  }]);
