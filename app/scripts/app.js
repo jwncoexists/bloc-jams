@@ -29,28 +29,36 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
 
    $stateProvider.state('landing', {
      url: '/',
-     controller: 'Landing.controller',
-     templateUrl: '/templates/landing.html'
+     views: {
+        "main@": {
+           controller: 'Landing.controller',
+           templateUrl: '/templates/landing.html'
+        }
+      }
    });
-
 
    $stateProvider.state('collection', {
      url: '/collection',
-     controller: 'Collection.controller',
-     templateUrl: '/templates/collection.html'
+     views: {
+        "main@": {
+           controller: 'Collection.controller',
+           templateUrl: '/templates/collection.html'
+        },
+        "playerBar@collection": { templateUrl: "templates/player_bar.html",
+                        controller: 'Player_bar.controller' }
+      }
    });
 
    $stateProvider.state('album', {
      url: '/album',
-     controller: 'Album.controller',
-     templateUrl: '/templates/album.html'
+     views: {
+        "main@": { templateUrl: '/templates/album.html',
+                   controller: 'Album.controller' },
+        "playerBar@album": { templateUrl: "templates/player_bar.html",
+                        controller: 'Player_bar.controller' }
+      }
    });
 
-   $stateProvider.state('song', {
-     url: '/song',
-     controller: 'Song.controller',
-     templateUrl: '/templates/song.html'
-   });      
  }]);
  
  // This is a cleaner way to call the controller than crowding it on the module definition.
@@ -126,6 +134,10 @@ blocJams.controller('Album.controller', ['$scope', function($scope) {
    $scope.pauseSong = function(song) {
       playingSong = null;
    };
+ }]);
+
+blocJams.controller('Player_bar.controller', ['$scope', function($scope) {
+
  }]);
 
 blocJams.controller('Song.controller', ['$scope', function($scope) {
