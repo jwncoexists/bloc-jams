@@ -63,6 +63,14 @@
    height: 28px;
  }
  
+ .even {
+   background-color: none;
+ }
+
+ .odd {
+   background-color: rgba(91, 85, 121, .3);
+ }
+
  .album-song-button:hover {
    cursor: pointer;
    color: white;

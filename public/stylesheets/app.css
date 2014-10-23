@@ -1,3 +1,4 @@
+/* global style variables for our application */
 .hero-content {
   background: #2f1d57;
   padding: 100px 0; }
@@ -79,6 +80,12 @@
   display: inline-block;
   width: 28px;
   height: 28px; }
+
+.even {
+  background-color: none; }
+
+.odd {
+  background-color: rgba(91, 85, 121, 0.3); }
 
 .album-song-button:hover {
   cursor: pointer;
@@ -340,7 +347,6 @@ td.song-number {
 .no-right-gutter {
   padding-right: 0px; }
 
-/* variable that holds the purple color we've used a couple times throughout our application */
 /* define the mixin */
 html {
   height: 100%; }
