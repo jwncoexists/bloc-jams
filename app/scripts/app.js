@@ -36,7 +36,6 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
         }
       }
    });
-
    $stateProvider.state('collection', {
      url: '/collection',
      views: {
@@ -45,24 +44,25 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
            templateUrl: '/templates/collection.html'
         },
         "playerBar@collection": { templateUrl: "templates/player_bar.html",
-                        controller: 'Player_bar.controller' }
+                        controller: 'PlayerBar.controller' }
       }
    });
-
    $stateProvider.state('album', {
      url: '/album',
      views: {
         "main@": { templateUrl: '/templates/album.html',
                    controller: 'Album.controller' },
         "playerBar@album": { templateUrl: "templates/player_bar.html",
-                        controller: 'Player_bar.controller' }
+                        controller: 'PlayerBar.controller' }
       }
    });
-
  }]);
  
- // This is a cleaner way to call the controller than crowding it on the module definition.
- blocJams.controller('Landing.controller', ['$scope', function($scope) {
+// ************** NG CONTROLLERS **************
+
+ blocJams.controller('Landing.controller', ['$scope', 'ConsoleLogger', function($scope, ConsoleLogger) {
+  $scope.consoleLogger = ConsoleLogger;
+  ConsoleLogger.log();
   $scope.subText = "Turn the music up!";
 
   // add an '!' when the subtext is clicked
@@ -70,6 +70,7 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
     $scope.subText += '!';
   };
 
+  // shuffle an array of objects
   function shuffle(o){ 
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
@@ -97,18 +98,22 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
 
  }]);
 
-blocJams.controller('Collection.controller', ['$scope', function($scope) {
+blocJams.controller('Collection.controller', ['$scope', 'ConsoleLogger', function($scope, ConsoleLogger) {
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
    $scope.albums = [];
    for (var i = 0; i < 33; i++) {
      $scope.albums.push(angular.copy(albumPicasso));
    }
  }]);
 
-blocJams.controller('Album.controller', ['$scope', function($scope) {
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
    $scope.album = angular.copy(albumPicasso);
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
    var hoveredSong = null;
-   var playingSong = null;
- 
+   
+
    $scope.onHoverSong = function(song) {
      hoveredSong = song;
    };
@@ -118,7 +123,7 @@ blocJams.controller('Album.controller', ['$scope', function($scope) {
    };
 
    $scope.getSongState = function(song) {
-     if (song === playingSong) {
+    if (song === SongPlayer.currentSong && SongPlayer.playing) {
        return 'playing';
      }
      else if (song === hoveredSong) {
@@ -128,18 +133,52 @@ blocJams.controller('Album.controller', ['$scope', function($scope) {
    };
  
    $scope.playSong = function(song) {
-      playingSong = song;
+     SongPlayer.setSong($scope.album, song);
+     SongPlayer.play();
    };
  
    $scope.pauseSong = function(song) {
-      playingSong = null;
+      SongPlayer.pause();
    };
  }]);
 
-blocJams.controller('Player_bar.controller', ['$scope', function($scope) {
+blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+   $scope.songPlayer = SongPlayer;
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
 
  }]);
 
-blocJams.controller('Song.controller', ['$scope', function($scope) {
+// ************** NG SERVICES **************
 
- }]);
+blocJams.service('SongPlayer', function() {
+  return {
+   currentSong: null,
+   currentAlbum: null,
+   playing: false,
+
+   play: function() {
+     this.playing = true;
+   },
+   pause: function() {
+     this.playing = false;
+   },
+   setSong: function(album, song) {
+     this.currentAlbum = album;
+     this.currentSong = song;
+   }
+  };
+});
+
+
+blocJams.service('ConsoleLogger', function() {
+  return {
+   logString:  "Hello World!",
+   log: function(str) {
+      if (str) { 
+        this.logString = str; 
+      }
+      console.log(this.logString);
+   }
+  };
+});
