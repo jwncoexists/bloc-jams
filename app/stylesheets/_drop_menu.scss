@@ -1,0 +1,19 @@
+  .drop-menu {
+    position: fixed;
+    left: 300px;
+    top: 100px;
+    background: $background-pink;
+    z-index: 100;
+ 
+    a, a:hover {
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .container {
+      display: table;
+      padding: 0;
+      min-height: 100%;
+    }
+  }

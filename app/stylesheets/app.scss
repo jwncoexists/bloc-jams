@@ -1,11 +1,11 @@
 /* global style variables for our application */
-$background-purple: #5B5579; 
+$background-pink: #ff3366; 
 $base-font-size: 16px;
 
 @import "landing";
-@import "album";
-@import "collection";
-@import "player_bar";
+@import "venues";
+@import "vendors";
+@import "drop_menu";
 @import "buttons";
 @import "profile";
 
@@ -15,7 +15,6 @@ $base-font-size: 16px;
   background: radial-gradient($first_color, $second_color);
 }
 
-
 html {
   height: 100%;
 }
@@ -24,12 +23,12 @@ body {
   font-family: 'Open Sans';
   color: white;
   min-height: 100%;
-  @include radial-gradient(#2b1339, #380c77);
   padding-bottom: 150px;
+  padding-top: 95px;
 }
 
 body.landing {
-  background: $background-purple;
+  background: $background-pink;
   padding-bottom: 0;
 }
 
@@ -37,24 +36,46 @@ body.landing .navbar {
   margin-bottom: 0;
 }
 
-.player-header-nav {
-  background-color: rgba(123, 70, 163, .9);
-  .navbar-nav {
-    a {
-      line-height: 45px;
-      color: white;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 1.2;
- 
-      &:hover {
-         color: rgba(123, 70, 163, .9);
-      }
-    }
-  }
+
+.navbar {
+  background-color: #ff3366;
+  border-color: #ff3366;
+  background-image: none;
+  background-repeat: no-repeat;
+  filter: none;
+  line-height: 100px;
+  height: 100px;
 }
 
+#sdwlogo {
+  height: 280%;
+  margin-top: -5px;
+}
 
+#sdwmenu-arrow {
+  display: inline;
+}
+
+#drop-menu {
+  position: absolute;
+  display: inline-block;
+  left: 300px;
+  top: 100px;
+  width: 500px;
+  height: 500px;
+  color: white;
+  background: $background-pink;
+  z-index: 100; 
+}
+#drop-menu img {
+  /* Just in case there are inline attributes */
+  width: 100%;
+  height: auto;
+}
+
+#drop-menu h4 {
+  text-align: left;
+}
 
 
 

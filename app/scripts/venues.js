@@ -1,0 +1,192 @@
+var albumPicasso = {
+   name: 'The Colors',
+   artist: 'Pablo Picasso',
+   label: 'Cubism',
+   year: '1881',
+   albumArtUrl: '/images/album-placeholder.png',
+   songs: [
+       { name: 'Blue', length: '4:26' },
+       { name: 'Green', length: '3:14' },
+       { name: 'Red', length: '5:01' },
+       { name: 'Pink', length: '3:21'},
+       { name: 'Magenta', length: '2:15'}
+     ]
+ };
+ 
+ // Another Example Album
+ var albumMarconi = {
+   name: 'The Telephone',
+   artist: 'Guglielmo Marconi',
+   label: 'EM',
+   year: '1909',
+   albumArtUrl: '/images/album-placeholder.png',
+   songs: [
+       { name: 'Hello, Operator?', length: '1:01' },
+       { name: 'Ring, ring, ring', length: '5:01' },
+       { name: 'Fits in your pocket', length: '3:21'},
+       { name: 'Can you hear me now?', length: '3:14' },
+       { name: 'Wrong phone number', length: '2:15'}
+     ]
+ };
+
+// Another Example Album
+ var albumHozier = {
+   name: 'Hozier',
+   artist: 'Hozier',
+   label: 'Rubyworks',
+   year: '2014',
+   albumArtUrl: '/images/album-placeholder.png',
+   songs: [
+       { name: 'Take Me to Church', length: '4:01' },
+       { name: 'Angel of Small Death', length: '3:30' },
+       { name: 'Jackie and Wilson', length: '3:43'},
+       { name: 'Someone New', length: '3:14' },
+       { name: 'From Eden', length: '5:23'}
+     ]
+ };
+
+var albumList = [ albumPicasso, albumMarconi, albumHozier ];
+var curAlbum = 0;
+var currentlyPlayingSong = null;
+var createSongRow = function(songNumber, songName, songLength) {
+   var template =
+       '<tr>'
+     + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
+     + '  <td class="col-md-9">' + songName + '</td>'
+     + '  <td class="col-md-2">' + songLength + '</td>'
+     + '</tr>'
+     ;
+
+   // attach hover functionality to template
+   var $row = $(template);
+ 
+   var onHover = function(event) {
+     var songNumberCell = $(this).find('.song-number');
+     var songNumber = songNumberCell.data('song-number');
+     if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+     }
+   };
+ 
+   var offHover = function(event) {
+     var songNumberCell = $(this).find('.song-number');
+     var songNumber = songNumberCell.data('song-number');
+     if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html(songNumber);
+     }
+   };
+
+   // Toggle the play, pause, and song number based on which play/pause button we clicked on.
+   var clickHandler = function(event) {
+     var songNumber = $(this).data('song-number');
+     if (currentlyPlayingSong !== null) {
+       // Revert to song number for currently playing song because user started playing new song.
+       var currentlyPlayingCell = $('.song-number[data-song-number="' + currentlyPlayingSong + '"]');
+       currentlyPlayingCell.html(currentlyPlayingSong);
+     }
+ 
+     if (currentlyPlayingSong !== songNumber) {
+       // Switch from Play -> Pause button to indicate new song is playing.
+       $(this).html('<a class="album-song-button"><i class="fa fa-pause"></i></a>');
+       currentlyPlayingSong = songNumber;
+     }
+     else if (currentlyPlayingSong === songNumber) {
+       // Switch from Pause -> Play button to pause currently playing song.
+       $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+       currentlyPlayingSong = null;
+     }
+   };
+
+
+   $row.find('.song-number').click(clickHandler);
+   $row.hover(onHover, offHover);
+   return $row;
+ 
+};
+
+var changeAlbumView = function(album) {
+   // Update the album title
+   var $albumTitle = $('.album-title');
+   $albumTitle.text(album.name);
+ 
+   // Update the album artist
+   var $albumArtist = $('.album-artist');
+   $albumArtist.text(album.artist);
+ 
+   // Update the meta information
+   var $albumMeta = $('.album-meta-info');
+   $albumMeta.text(album.year + " on " + album.label);
+ 
+   // Update the album image
+   var $albumImage = $('.album-image img');
+   $albumImage.attr('src', album.albumArtUrl);
+ 
+   // Update the Song List
+   var $songList = $(".album-song-listing");
+   $songList.empty();
+   var songs = album.songs;
+   for (var i = 0; i < songs.length; i++) {
+     var songData = songs[i];
+     var $newRow = createSongRow(i + 1, songData.name, songData.length);
+     $songList.append($newRow);
+   }
+ }; // ChangeAlbumView
+
+var updateSeekPercentage = function($seekBar, event) {
+   var barWidth = $seekBar.width();
+   // calculate distance between mouse position and seekbar position
+   var offsetX = event.pageX - $seekBar.offset().left; 
+
+   // make it a percentage
+   var offsetXPercent = (offsetX  / barWidth) * 100;
+
+   // make sure the percentage stays between 0 & 100 in case user moves mouse past boundaries
+   offsetXPercent = Math.max(0, offsetXPercent);
+   offsetXPercent = Math.min(100, offsetXPercent);
+ 
+   var percentageString = offsetXPercent + '%';
+   $seekBar.find('.fill').width(percentageString);
+   $seekBar.find('.thumb').css({left: percentageString});
+ }
+
+var setupSeekBars = function() {
+ 
+   // bind updateSeekPercentage to mouse click events for player-bar & seek-bar
+   $seekBars = $('.player-bar .seek-bar');
+   $seekBars.click(function(event) {
+     updateSeekPercentage($(this), event);
+   });
+
+   // setup mousedown event handler for the thumb object
+   $seekBars.find('.thumb').mousedown(function(event){
+
+    // get the seekBar object which is the parent of the thumb
+    var $seekBar = $(this).parent();
+
+    // turn off animation so that thumb doesn't lag when dragging with mouse
+    $seekBar.addClass('no-animate');
+ 
+    $(document).bind('mousemove.thumb', function(event){
+      updateSeekPercentage($seekBar, event);
+    });
+ 
+    //cleanup so that further mousemoves elsewhere on page won't trigger thumb movement
+    $(document).bind('mouseup.thumb', function(){
+      $seekBar.removeClass('no-animate'); // turn animation back on
+      $(document).unbind('mousemove.thumb');
+      $(document).unbind('mouseup.thumb');
+    });
+ 
+  });
+
+ };
+
+if (document.URL.match(/\/album.html/)) {
+    $(document).ready(function() { 
+
+      changeAlbumView(albumPicasso);
+      setupSeekBars();
+
+    });
+};
+

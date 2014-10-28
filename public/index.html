@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-ng-app="BlocJams">
+<html data-ng-app="SanDiegoWedding">
   <head>
-     <title>Bloc Jams</title>
+     <title>San Diego Wedding</title>
      <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.1/build/cssreset/cssreset-min.css">
      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,600,700,300' rel='stylesheet' type='text/css'>
      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -17,20 +17,24 @@
      </script>
   </head>
   <body>
-     <nav class="player-header-nav navbar">
-       <div class="container">
-         <div class='navbar-header'> <!-- Nav Bar -->
-             <a ui-sref='landing' class='logo navbar-left'>
-             <img src="/images/blocjams.png">
-           </a>
-         </div> <!-- navbar-header -->
-         <ul class="nav navbar-nav navbar-right">
-           <li><a ui-sref='collection'>Library</a></li>
-         </ul>
-       </div> <!-- container -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="DropMenu.controller">
+      <div class="container">
+        <div class='navbar-header'> <!-- Nav Bar -->
+          <div class="logo navbar-left">
+            <a ui-sref='landing'>
+              <img src="/images/logowithtext.png">
+            </a>
+            <img src="/images/menuarrow.png" ng-click="toggleDropMenu()"/>
+          </div> <!-- logo navbar-left -->
+        </div> <!-- navbar-header -->
+      </div> <!-- container -->
+      <ul id='drop-menu' ng-show="showDropMenu">
+        <li>beauty</li>
+        <li>florists</li>
+        <li>photographers</li>
+      </ul>
+
      </nav>
-
      <div ui-view="main"></div>
-
   </body> 
 </html>

@@ -1,0 +1,32 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'bower' ]
+2 info using npm@1.4.14
+3 info using node@v0.10.29
+4 verbose node symlink /usr/local/bin/node
+5 error Error: EIO, i/o error
+5 error     at Object.fs.readSync (fs.js:481:19)
+5 error     at Object.fs.readSync (/opt/node-v0.10.29-linux-x86/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:218:23)
+5 error     at Object.fs.readFileSync (fs.js:315:28)
+5 error     at Object.Module._extensions..js (module.js:473:44)
+5 error     at Module.load (module.js:356:32)
+5 error     at Function.Module._load (module.js:312:12)
+5 error     at Module.require (module.js:364:17)
+5 error     at require (module.js:380:17)
+5 error     at Object.defineProperty.get [as install] (/opt/node-v0.10.29-linux-x86/lib/node_modules/npm/lib/npm.js:193:15)
+5 error     at EventEmitter.<anonymous> (/opt/node-v0.10.29-linux-x86/lib/node_modules/npm/bin/npm-cli.js:84:28)
+6 error If you need help, you may report this *entire* log,
+6 error including the npm and node versions, at:
+6 error     <http://github.com/npm/npm/issues>
+7 error System Linux 3.2.0-23-generic-pae
+8 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "bower"
+9 error cwd /vagrant/sdwedding
+10 error node -v v0.10.29
+11 error npm -v 1.4.14
+12 error syscall read
+13 error code EIO
+14 error errno 55
+15 verbose exit [ 55, true ]
