@@ -90,254 +90,7 @@
   globals.require.list = list;
   globals.require.brunch = true;
 })();
-require.register("scripts/app", function(exports, require, module) {
-//require("./landing");
-//require("./vendors");
-//require("./venues");
-//require("./style");
-//require("./color");
-//require("./planning");
-//require("./nuptials");
-//require("./events");
-//require("./profile");
-
-
-// import the ui-router
-sdWedding = angular.module('SanDiegoWedding', ['ui.router']);
-
-// configure ui-router with providers
-sdWedding.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
-   
-   // specify paths without hashbang
-   $locationProvider.html5Mode(true);
-
-   $stateProvider.state('landing', {
-     url: '/',
-     views: {
-        "main@": {
-           controller: 'Landing.controller',
-           templateUrl: '/templates/landing.html'
-        }
-      }
-   });
-   $stateProvider.state('vendors', {
-     url: '/vendors',
-     views: {
-        "main@": {
-           controller: 'Vendors.controller',
-           templateUrl: '/templates/vendors.html'
-        }
-      }
-   });
-   $stateProvider.state('venues', {
-     url: '/venues',
-     views: {
-        "main@": { templateUrl: '/templates/venues.html',
-                   controller: 'Venues.controller' }
-      }
-   });
-   $stateProvider.state('beauty', {
-     url: '/beauty',
-     views: {
-        "main@": { templateUrl: '/templates/beauty.html',
-                   controller: 'Beauty.controller' }
-      }
-   });
-   $stateProvider.state('florists', {
-     url: '/florists',
-     views: {
-        "main@": { templateUrl: '/templates/florists.html',
-                   controller: 'Florists.controller' }
-      }
-   });
-   $stateProvider.state('photographers', {
-     url: '/photographers',
-     views: {
-        "main@": { templateUrl: '/templates/photographers.html',
-                   controller: 'Photographers.controller' }
-      }
-   });
-   $stateProvider.state('video-artists', {
-     url: '/video-artists',
-     views: {
-        "main@": { templateUrl: '/templates/video-artists.html',
-                   controller: 'VideoArtists.controller' }
-      }
-   });
-
- }]);
- 
-// ************** NG CONTROLLERS **************
-
- sdWedding.controller('Landing.controller', ['$scope', function($scope) {
-
-  // shuffle an array of objects
-  function shuffle(o){ 
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  };
-
-  console.log('In Landing Controller');
-  $scope.landingPhotos = [
-    '/images/vendors.png',
-    '/images/pinoftheday.png',
-    '/images/fashionforecast.png',
-    '/images/featuredwedding.png',
-    '/images/votetopics.png',
-    '/images/blog.png',
-    '/images/nuptials.png',
-    '/images/tips.png',
-    '/images/colors.png',
-    '/images/venues.png',
-    '/images/dresses.png',
-    '/images/honeymoon.png'
-  ];
-  
-}]);
-
-sdWedding.controller('Vendors.controller', ['$scope', function($scope) {
-
- }]);
-
-sdWedding.controller('Venues.controller', ['$scope', function($scope) {
-   
-
- }]);
-
-sdWedding.controller('Beauty.controller', ['$scope', function($scope) {
-
- }]);
-
-sdWedding.controller('Florists.controller', ['$scope', function($scope) {
-
- }]);
-
-sdWedding.controller('Photographers.controller', ['$scope', function($scope) {
-
- }]);
-
-sdWedding.controller('VideoArtists.controller', ['$scope', function($scope) {
-
- }]);
-
-sdWedding.controller('DropMenu.controller', ['$scope', function($scope) {
-
-  $scope.showDropMenu = false;
-
-  $scope.toggleDropMenu = function () {
-    $scope.showDropMenu = !($scope.showDropMenu);
-  }
- 
-}]);
-
-
-
-
-// ************** NG SERVICES **************
-
-
-
-
-
-});
-
-;require.register("scripts/landing", function(exports, require, module) {
-
-});
-
-;require.register("scripts/profile", function(exports, require, module) {
- // holds the name of our tab button container for selection later in the function
-var tabsContainer = ".user-profile-tabs-container"
-var selectTabHandler = function(event) {
- $tab = $(this);
- $(tabsContainer + " li").removeClass('active');
- $tab.parent().addClass('active');
- selectedTabName = $tab.attr('href');
- console.log(selectedTabName);
- $(".tab-pane").addClass('hidden');
- $(selectedTabName).removeClass('hidden');
- event.preventDefault();
-};
-
-if (document.URL.match(/\/profile.html/)) {
- $(document).ready(function() {
-   var $tabs = $(tabsContainer + " a");
-   $tabs.click(selectTabHandler);
-   $tabs[0].click();
- });
-}
-});
-
-;require.register("scripts/vendors", function(exports, require, module) {
-var buildAlbumThumbnail = function() {
-  var template =
-        '<div class="collection-album-container col-md-2">'
-      + '  <div class="collection-album-image-container">'
-      + '    <img src="/images/album-placeholder.png"/>'
-      + '  </div>'
-      + '  <div class="caption album-collection-info">'
-      + '    <p>'
-      + '      <a class="album-name" href="/album.html"> Album Name </a>'
-      + '      <br/>'
-      + '      <a href="/album.html"> Artist name </a>'
-      + '      <br/>'
-      + '      X songs'
-      + '      <br/>'
-      + '      X:XX total length'
-      + '      <br/>'
-      + '    </p>'
-      + '  </div>'
-      + '</div>';
-
-    return $(template);  
-};
-
-var buildAlbumOverlay = function(albumURL) {
-  var template =
-      '<div class="collection-album-image-overlay">'
-    + '  <div class="collection-overlay-content">'
-    + '    <a class="collection-overlay-button" href="' + albumURL + '">'
-    + '      <i class="fa fa-play"></i>'
-    + '    </a>'
-    + '    &nbsp;'
-    + '    <a class="collection-overlay-button">'
-    + '      <i class="fa fa-plus"></i>'
-    + '    </a>'
-    + '  </div>'
-    + '</div>'
-    ;
-  return $(template);
-};
-
-var updateCollectionView = function() {
-   var $collection = $(".collection-container .row");
-   $collection.empty();
-
-   for (i = 0; i < Math.floor(Math.random() * 75) + 25; i++) {
-      $collection.append(buildAlbumThumbnail());
-   };
-
-   var onHover = function(event) {
-     $(this).append(buildAlbumOverlay("/album.html"));
-   };
-
-  var offHover = function(event) {
-    $(this).find('.collection-album-image-overlay').remove();
-  };
-
-   $collection.find('.collection-album-image-container').hover(onHover, offHover);
-};
-
-if (document.URL.match(/\/collection.html/)) {
-  $(document).ready(function() {
-      updateCollectionView();
-  });
-};
-
-
-});
-
-;require.register("scripts/venues", function(exports, require, module) {
+require.register("scripts/album", function(exports, require, module) {
 var albumPicasso = {
    name: 'The Colors',
    artist: 'Pablo Picasso',
@@ -531,6 +284,315 @@ if (document.URL.match(/\/album.html/)) {
 };
 
 
+});
+
+;require.register("scripts/app", function(exports, require, module) {
+//require("./landing");
+//require("./collection");
+//require("./album");
+//require("./profile");
+
+var albumPicasso = {
+   name: 'The Colors',
+   artist: 'Pablo Picasso',
+   label: 'Cubism',
+   year: '1881',
+   albumArtUrl: '/images/album-placeholder.png',
+   songs: [
+       { name: 'Blue', length: '4:26' },
+       { name: 'Green', length: '3:14' },
+       { name: 'Red', length: '5:01' },
+       { name: 'Pink', length: '3:21'},
+       { name: 'Magenta', length: '2:15'}
+     ]
+ };
+
+// import the ui-router
+blocJams = angular.module('BlocJams', ['ui.router']);
+
+// configure ui-router with providers
+blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+   
+   // specify paths without hashbang
+   $locationProvider.html5Mode(true);
+
+   $stateProvider.state('landing', {
+     url: '/',
+     views: {
+        "main@": {
+           controller: 'Landing.controller',
+           templateUrl: '/templates/landing.html'
+        }
+      }
+   });
+   $stateProvider.state('collection', {
+     url: '/collection',
+     views: {
+        "main@": {
+           controller: 'Collection.controller',
+           templateUrl: '/templates/collection.html'
+        },
+        "playerBar@collection": { templateUrl: "templates/player_bar.html",
+                        controller: 'PlayerBar.controller' }
+      }
+   });
+   $stateProvider.state('album', {
+     url: '/album',
+     views: {
+        "main@": { templateUrl: '/templates/album.html',
+                   controller: 'Album.controller' },
+        "playerBar@album": { templateUrl: "templates/player_bar.html",
+                        controller: 'PlayerBar.controller' }
+      }
+   });
+ }]);
+ 
+// ************** NG CONTROLLERS **************
+
+ blocJams.controller('Landing.controller', ['$scope', 'ConsoleLogger', function($scope, ConsoleLogger) {
+  $scope.consoleLogger = ConsoleLogger;
+  ConsoleLogger.log();
+  $scope.subText = "Turn the music up!";
+
+  // add an '!' when the subtext is clicked
+  $scope.subTextClicked = function() {
+    $scope.subText += '!';
+  };
+
+  // shuffle an array of objects
+  function shuffle(o){ 
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+  };
+  
+  $scope.hdrText = "Bloc Jams";
+
+  // shuffle the images when the header is clicked
+  $scope.hdrTextClicked = function() {
+    console.log('hdrText clicked');
+    shuffle($scope.albumURLs);
+  };
+
+   $scope.albumURLs = [
+     '/images/album-placeholders/album-1.jpg',
+     '/images/album-placeholders/album-2.jpg',
+     '/images/album-placeholders/album-3.jpg',
+     '/images/album-placeholders/album-4.jpg',
+     '/images/album-placeholders/album-5.jpg',
+     '/images/album-placeholders/album-6.jpg',
+     '/images/album-placeholders/album-7.jpg',
+     '/images/album-placeholders/album-8.jpg',
+     '/images/album-placeholders/album-9.jpg',
+   ];
+
+ }]);
+
+blocJams.controller('Collection.controller', ['$scope', 'ConsoleLogger', function($scope, ConsoleLogger) {
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
+   $scope.albums = [];
+   for (var i = 0; i < 33; i++) {
+     $scope.albums.push(angular.copy(albumPicasso));
+   }
+ }]);
+
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+   $scope.album = angular.copy(albumPicasso);
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
+   var hoveredSong = null;
+   
+
+   $scope.onHoverSong = function(song) {
+     hoveredSong = song;
+   };
+ 
+   $scope.offHoverSong = function(song) {
+     hoveredSong = null;
+   };
+
+   $scope.getSongState = function(song) {
+    if (song === SongPlayer.currentSong && SongPlayer.playing) {
+       return 'playing';
+     }
+     else if (song === hoveredSong) {
+       return 'hovered';
+     }
+     return 'default';
+   };
+ 
+   $scope.playSong = function(song) {
+     SongPlayer.setSong($scope.album, song);
+     SongPlayer.play();
+   };
+ 
+   $scope.pauseSong = function(song) {
+      SongPlayer.pause();
+   };
+ }]);
+
+blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+   $scope.songPlayer = SongPlayer;
+   $scope.consoleLogger = ConsoleLogger;
+   ConsoleLogger.log();
+
+ }]);
+
+// ************** NG SERVICES **************
+
+blocJams.service('SongPlayer', function() {
+  return {
+   currentSong: null,
+   currentAlbum: null,
+   playing: false,
+
+   play: function() {
+     this.playing = true;
+   },
+   pause: function() {
+     this.playing = false;
+   },
+   setSong: function(album, song) {
+     this.currentAlbum = album;
+     this.currentSong = song;
+   }
+  };
+});
+
+
+blocJams.service('ConsoleLogger', function() {
+  return {
+   logString:  "Hello World!",
+   log: function(str) {
+      if (str) { 
+        this.logString = str; 
+      }
+      console.log(this.logString);
+   }
+  };
+});
+
+});
+
+;require.register("scripts/collection", function(exports, require, module) {
+var buildAlbumThumbnail = function() {
+  var template =
+        '<div class="collection-album-container col-md-2">'
+      + '  <div class="collection-album-image-container">'
+      + '    <img src="/images/album-placeholder.png"/>'
+      + '  </div>'
+      + '  <div class="caption album-collection-info">'
+      + '    <p>'
+      + '      <a class="album-name" href="/album.html"> Album Name </a>'
+      + '      <br/>'
+      + '      <a href="/album.html"> Artist name </a>'
+      + '      <br/>'
+      + '      X songs'
+      + '      <br/>'
+      + '      X:XX total length'
+      + '      <br/>'
+      + '    </p>'
+      + '  </div>'
+      + '</div>';
+
+    return $(template);  
+};
+
+var buildAlbumOverlay = function(albumURL) {
+  var template =
+      '<div class="collection-album-image-overlay">'
+    + '  <div class="collection-overlay-content">'
+    + '    <a class="collection-overlay-button" href="' + albumURL + '">'
+    + '      <i class="fa fa-play"></i>'
+    + '    </a>'
+    + '    &nbsp;'
+    + '    <a class="collection-overlay-button">'
+    + '      <i class="fa fa-plus"></i>'
+    + '    </a>'
+    + '  </div>'
+    + '</div>'
+    ;
+  return $(template);
+};
+
+var updateCollectionView = function() {
+   var $collection = $(".collection-container .row");
+   $collection.empty();
+
+   for (i = 0; i < Math.floor(Math.random() * 75) + 25; i++) {
+      $collection.append(buildAlbumThumbnail());
+   };
+
+   var onHover = function(event) {
+     $(this).append(buildAlbumOverlay("/album.html"));
+   };
+
+  var offHover = function(event) {
+    $(this).find('.collection-album-image-overlay').remove();
+  };
+
+   $collection.find('.collection-album-image-container').hover(onHover, offHover);
+};
+
+if (document.URL.match(/\/collection.html/)) {
+  $(document).ready(function() {
+      updateCollectionView();
+  });
+};
+
+
+});
+
+;require.register("scripts/landing", function(exports, require, module) {
+$(document).ready(function() {
+
+  // Add ! every time click on 'Turn the music up'
+  $('.hero-content h3').click(function() {
+    subText = $(this).text();
+    $(this).text(subText + "!");
+  });
+
+  // highlight 'Turn the music up' when hovering
+  $('.hero-content h3').hover(function() {
+      $(this).toggleClass('hover-highlight');
+  });
+
+  // animate the selling points when hovering
+  var onHoverAction = function(event) {
+    console.log('Hover action triggered.');
+    $(this).animate({'margin-top': '10px'});
+  };
+  var offHoverAction = function(event) {
+    console.log('Off-Hover action triggered.');
+    $(this).animate({'margin-top': '0px'});
+  };
+  $('.selling-points .point').hover(onHoverAction, offHoverAction);
+
+
+});
+});
+
+;require.register("scripts/profile", function(exports, require, module) {
+ // holds the name of our tab button container for selection later in the function
+var tabsContainer = ".user-profile-tabs-container"
+var selectTabHandler = function(event) {
+ $tab = $(this);
+ $(tabsContainer + " li").removeClass('active');
+ $tab.parent().addClass('active');
+ selectedTabName = $tab.attr('href');
+ console.log(selectedTabName);
+ $(".tab-pane").addClass('hidden');
+ $(selectedTabName).removeClass('hidden');
+ event.preventDefault();
+};
+
+if (document.URL.match(/\/profile.html/)) {
+ $(document).ready(function() {
+   var $tabs = $(tabsContainer + " a");
+   $tabs.click(selectTabHandler);
+   $tabs[0].click();
+ });
+}
 });
 
 ;

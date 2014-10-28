@@ -1,12 +1,39 @@
 /* global style variables for our application */
-.photos {
-  line-height: 0;
-  float: left; }
+.hero-content {
+  background: #2f1d57;
+  padding: 100px 0; }
 
-.photos img {
-  /* Just in case there are inline attributes */
-  width: 100%;
-  height: auto; }
+.hero-content h1 {
+  font-size: 70px;
+  margin-bottom: 50px;
+  font-weight: 300; }
+  .hero-content h1:hover {
+    color: #d2287b;
+    cursor: pointer; }
+
+.hero-content h3:hover {
+  color: #d2287b;
+  cursor: pointer; }
+
+.selling-points {
+  padding: 100px 0; }
+
+.selling-points .point {
+  width: 32%;
+  float: left;
+  padding: 0 0.5%; }
+  .selling-points .point:hover {
+    margin-top: 10px; }
+
+.selling-points .point h5 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  height: 85px; }
+
+.selling-points .point p {
+  font-size: 14px; }
 
 .album-header-container {
   margin-top: 55px;
@@ -139,20 +166,112 @@ td.song-number {
 .collection-album-container .collection-overlay-button .fa-play {
   padding-left: 5px; }
 
-.drop-menu {
+.player-bar {
   position: fixed;
-  left: 300px;
-  top: 100px;
-  background: #ff3366;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.3);
   z-index: 100; }
-  .drop-menu a, .drop-menu a:hover {
+  .player-bar a, .player-bar a:hover {
     color: white;
     cursor: pointer;
     text-decoration: none; }
-  .drop-menu .container {
+  .player-bar .container {
     display: table;
     padding: 0;
     min-height: 100%; }
+  .player-bar .left-controls {
+    width: 25%;
+    text-align: left; }
+  .player-bar .right-controls {
+    width: 25%;
+    text-align: right; }
+  .player-bar .play-controls a {
+    font-size: 20px;
+    vertical-align: middle; }
+  .player-bar .play-controls .previous {
+    margin-right: 65px; }
+  .player-bar .play-controls .play-pause {
+    margin-right: 60px;
+    font-size: 30px; }
+  .player-bar .currently-playing {
+    width: 50%;
+    text-align: center;
+    position: relative; }
+    .player-bar .currently-playing .song-name, .player-bar .currently-playing .artist-name {
+      text-align: center;
+      margin: 0;
+      position: absolute;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 300; }
+    .player-bar .currently-playing .song-name {
+      top: 20px; }
+    .player-bar .currently-playing .artist-name {
+      bottom: 20px; }
+  .player-bar .queue-toggle {
+    display: inline-block;
+    margin-left: 75px; }
+    .player-bar .queue-toggle i {
+      font-size: 20px; }
+  .player-bar .volume {
+    display: inline-block; }
+    .player-bar .volume i {
+      width: 40px;
+      font-size: 20px;
+      display: inline-block;
+      vertical-align: middle; }
+    .player-bar .volume .seek-bar {
+      display: inline-block;
+      width: 100px;
+      vertical-align: middle; }
+
+.player-bar-control-group {
+  display: table-cell;
+  vertical-align: middle; }
+
+.seek-control {
+  position: relative; }
+  .seek-control .current-time {
+    position: absolute;
+    top: 10px; }
+  .seek-control .total-time {
+    position: absolute;
+    right: 0;
+    top: 10px; }
+
+.seek-bar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer; }
+  .seek-bar .fill {
+    background: white;
+    width: 36%;
+    height: 5px;
+    border-radius: 2px; }
+  .seek-bar .thumb {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background: white;
+    left: 36%;
+    margin-left: -5px;
+    top: 50%;
+    margin-top: -5px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 100ms ease-in-out; }
+  .seek-bar.no-animate .fill, .seek-bar.no-animate .thumb {
+    transition: none; }
+  .seek-bar:hover .thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px; }
 
 .default-button {
   background-color: #d2287b;
@@ -236,50 +355,27 @@ body {
   font-family: 'Open Sans';
   color: white;
   min-height: 100%;
-  padding-bottom: 150px;
-  padding-top: 95px; }
+  background: -webkit-radial-gradient(#2b1339, #380c77);
+  background: radial-gradient(#2b1339, #380c77);
+  padding-bottom: 150px; }
 
 body.landing {
-  background: #ff3366;
+  background: #5b5579;
   padding-bottom: 0; }
 
 body.landing .navbar {
   margin-bottom: 0; }
 
-.navbar {
-  background-color: #ff3366;
-  border-color: #ff3366;
-  background-image: none;
-  background-repeat: no-repeat;
-  filter: none;
-  line-height: 100px;
-  height: 100px; }
-
-#sdwlogo {
-  height: 280%;
-  margin-top: -5px; }
-
-#sdwmenu-arrow {
-  display: inline; }
-
-#drop-menu {
-  position: absolute;
-  display: inline-block;
-  left: 300px;
-  top: 100px;
-  width: 500px;
-  height: 500px;
-  color: white;
-  background: #ff3366;
-  z-index: 100; }
-
-#drop-menu img {
-  /* Just in case there are inline attributes */
-  width: 100%;
-  height: auto; }
-
-#drop-menu h4 {
-  text-align: left; }
+.player-header-nav {
+  background-color: rgba(123, 70, 163, 0.9); }
+  .player-header-nav .navbar-nav a {
+    line-height: 45px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.2; }
+    .player-header-nav .navbar-nav a:hover {
+      color: rgba(123, 70, 163, 0.9); }
 
 
 /*# sourceMappingURL=app.css.map*/
