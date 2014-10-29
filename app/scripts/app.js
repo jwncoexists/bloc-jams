@@ -221,6 +221,7 @@ blocJams.service('ConsoleLogger', function() {
 });
 
 // ************** NG DIRECTIVES **************
+
 blocJams.directive('slider', function(){
 
   var updateSeekPercentage = function($seekBar, event) {
@@ -267,3 +268,43 @@ blocJams.directive('slider', function(){
    };
  });
 
+blocJams.directive('clickMe', function(){
+  return {
+    restrict: 'E',
+    link: function(scope, element) {
+      $(element).click(function() {
+        alert( element + ' has been clicked.');
+      });
+    }
+  };
+});
+
+blocJams.directive('countHoverTime', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element) {
+      var hoverTime = 0;
+      var interval;
+      $(element).mouseenter(function() {
+          console.log('Hover in');
+          interval = window.setInterval(function() {
+          ++hoverTime;
+        }, 1000);
+      }); // mouseenter
+      $(element).mouseleave(function() {
+           window.clearInterval(interval);
+           console.log('Hover time: ' + hoverTime);
+      }); //mouseleave
+    } // link
+  }; // return
+});
+
+blocJams.directive('classify', function(){
+  return {
+    restrict: 'EAC',
+    link: function(scope, element, attributes) {
+        var text = $(element).text();
+        $(element).addClass(text);
+    }
+  };
+});
