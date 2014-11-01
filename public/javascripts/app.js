@@ -438,88 +438,100 @@ blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLog
    $scope.consoleLogger = ConsoleLogger;
    ConsoleLogger.log();
 
- }]);
+   SongPlayer.onTimeUpdate(function(event, time){
+     $scope.$apply(function(){
+       $scope.playTime = time;
+     });
+   }); // onTimeUpdate
+ }]); // PlayerBar controller
 
 // ************** NG SERVICES **************
 
-blocJams.service('SongPlayer', function() {
+blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
    var currentSoundFile = null;
    var trackIndex = function(album, song) {
      return album.songs.indexOf(song);
    };
  
   return {
-   currentSong: null,
-   currentAlbum: null,
-   playing: false,
+    currentSong: null,
+    currentAlbum: null,
+    playing: false,
 
-   play: function() {
-     this.playing = true;
-     currentSoundFile.play();
-   },
-   pause: function() {
-     this.playing = false;
-     currentSoundFile.pause();
-   },
-   next: function() {
-     var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
-     currentTrackIndex++;
-     if (currentTrackIndex >= this.currentAlbum.songs.length) {
-       currentTrackIndex = 0;
-     }
-     var song = this.currentAlbum.songs[currentTrackIndex];
-     this.setSong(this.currentAlbum, song);
-   },
-   previous: function() {
-     var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
-     currentTrackIndex--;
-     if (currentTrackIndex < 0) {
-       currentTrackIndex = this.currentAlbum.songs.length - 1;
-     }
-
-     var song = this.currentAlbum.songs[currentTrackIndex];
-     this.setSong(this.currentAlbum, song);
-   },
-   seek: function(time) {
-       // Checks to make sure that a sound file is playing before seeking.
-       console.log('In SongPlayer.seek');
-       if(currentSoundFile) {
-         // Uses a Buzz method to set the time of the song.
-         currentSoundFile.setTime(time);
+    play: function() {
+       this.playing = true;
+       currentSoundFile.play();
+    },
+    pause: function() {
+       this.playing = false;
+       currentSoundFile.pause();
+    },
+    next: function() {
+       var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
+       currentTrackIndex++;
+       if (currentTrackIndex >= this.currentAlbum.songs.length) {
+         currentTrackIndex = 0;
        }
-     },
-   setSong: function(album, song) {
+       var song = this.currentAlbum.songs[currentTrackIndex];
+       this.setSong(this.currentAlbum, song);
+    },
+    previous: function() {
+       var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
+       currentTrackIndex--;
+       if (currentTrackIndex < 0) {
+         currentTrackIndex = this.currentAlbum.songs.length - 1;
+       }
+
+       var song = this.currentAlbum.songs[currentTrackIndex];
+       this.setSong(this.currentAlbum, song);
+    },
+    seek: function(time) {
+         // Checks to make sure that a sound file is playing before seeking.
+         console.log('In SongPlayer.seek');
+         if(currentSoundFile) {
+           // Uses a Buzz method to set the time of song.
+           currentSoundFile.setTime(time);
+         }
+    },
+    onTimeUpdate: function(callback) {
+        return $rootScope.$on('sound:timeupdate', callback);
+    },
+    setSong: function(album, song) {
       if (currentSoundFile) {
         currentSoundFile.stop();
       }
       this.currentAlbum = album;
       this.currentSong = song;
-      currentSoundFile = new buzz.sound(song.audioUrl, {
-      formats: [ "mp3" ],
-      preload: true
-    });
- 
-    this.play();
-   }
-  };
-});
 
+      currentSoundFile = new buzz.sound(song.audioUrl, {
+        formats: [ "mp3" ],
+        preload: true
+      });
+      
+      currentSoundFile.bind('timeupdate', function(e) {
+        $rootScope.$broadcast('sound:timeupdate', this.getTime());
+      });
+
+      this.play();
+    } // setSong
+  } // return
+}]);
 
 blocJams.service('ConsoleLogger', function() {
   return {
-   logString:  "Hello World!",
-   log: function(str) {
+    logString:  "Hello World!",
+    log: function(str) {
       if (str) { 
         this.logString = str; 
       }
       console.log(this.logString);
-   }
+    }
   };
 });
 
 // ************** NG DIRECTIVES **************
 
-blocJams.directive('slider', ['$document', function($document){
+blocJams.directive('slider', ['$document', function($document) {
   // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar.
   var calculateSliderPercentFromMouseEvent = function($slider, event) {
      var offsetX =  event.pageX - $slider.offset().left; // Distance from left
@@ -528,21 +540,19 @@ blocJams.directive('slider', ['$document', function($document){
      offsetXPercent = Math.max(0, offsetXPercent);
      offsetXPercent = Math.min(1, offsetXPercent);
      return offsetXPercent;
-  }
+  } // calculateSliderPercentFromMouseEvent
 
   var numberFromValue = function(value, defaultValue) {
      if (typeof value === 'number') {
        return value;
-     }
- 
+     } 
      if(typeof value === 'undefined') {
        return defaultValue;
      }
- 
      if(typeof value === 'string') {
        return Number(value);
      }
-   }
+   } // numberFromValue
  
   return {
     templateUrl: '/templates/directives/slider.html', 
@@ -608,10 +618,41 @@ blocJams.directive('slider', ['$document', function($document){
            scope.onChange({value: newValue});
          }
       } //notifyCallback
-      
+
     } // link: function()
   } // return {
 }]); // slider directive
+
+// ************** NG FILTERS **************
+
+blocJams.filter('timecode', function(){
+   return function(seconds) {
+     seconds = Number.parseFloat(seconds);
+ 
+     // Returned when no time is provided.
+     if (Number.isNaN(seconds)) {
+       return '-:--';
+     }
+ 
+     // make it a whole number
+     var wholeSeconds = Math.floor(seconds);
+ 
+     var minutes = Math.floor(wholeSeconds / 60);
+ 
+     remainingSeconds = wholeSeconds % 60;
+ 
+     var output = minutes + ':';
+ 
+     // zero pad seconds, so 9 seconds should be :09
+     if (remainingSeconds < 10) {
+       output += '0';
+     }
+ 
+     output += remainingSeconds;
+ 
+     return output;
+   }
+ }) //timecode filter
 
 
 });
