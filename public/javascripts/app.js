@@ -433,14 +433,14 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
    };
  }]);
 
-blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+blocJams.controller('PlayerBar.controller', ['$scope', '$filter', 'SongPlayer', 'ConsoleLogger', function($scope, $filter, SongPlayer, ConsoleLogger) {
    $scope.songPlayer = SongPlayer;
    $scope.consoleLogger = ConsoleLogger;
    ConsoleLogger.log();
 
    SongPlayer.onTimeUpdate(function(event, time){
      $scope.$apply(function(){
-       $scope.playTime = time;
+       $scope.playTime = $filter('timecode')(time);
      });
    }); // onTimeUpdate
  }]); // PlayerBar controller
