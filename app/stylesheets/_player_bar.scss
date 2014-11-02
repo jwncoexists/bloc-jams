@@ -84,6 +84,9 @@
         display: inline-block;
         vertical-align: middle;
         text-align: left;
+        &:hover {
+          cursor: pointer;
+        }
       }
  
       .slider {

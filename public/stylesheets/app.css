@@ -224,6 +224,8 @@ td.song-number {
       display: inline-block;
       vertical-align: middle;
       text-align: left; }
+      .player-bar .volume i:hover {
+        cursor: pointer; }
     .player-bar .volume .slider {
       display: inline-block;
       width: 100px;
