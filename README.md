@@ -1,6 +1,6 @@
 ## bloc-jams
 
-A music player developed with NodeJS, AngularJS, Bower, HTML5, CSS, SASS.
+A music player application developed with NodeJS, AngularJS, Bower, HTML5, CSS, SASS.
 
 ## Getting started
 * Install (if you don't have them):
@@ -15,3 +15,10 @@ A music player developed with NodeJS, AngularJS, Bower, HTML5, CSS, SASS.
 
 * Run bloc-jams:
 * npm start
+
+* runs on localhost:3000
+
+## Screenshots
+
+![bloc-jams](/doc/screenshot-blocjams-1.png)
+![bloc-jams](/doc/screenshot-blocjams-1.png)
