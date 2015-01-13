@@ -21,4 +21,4 @@ A music player application developed with NodeJS, AngularJS, Bower, HTML5, CSS, 
 ## Screenshots
 
 ![bloc-jams](/doc/screenshot-blocjams-1.png)
-![bloc-jams](/doc/screenshot-blocjams-1.png)
+![bloc-jams](/doc/screenshot-blocjams-2.png)
